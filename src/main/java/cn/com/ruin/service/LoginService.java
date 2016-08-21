@@ -1,4 +1,4 @@
-package cn.com.ruin.services;
+package cn.com.ruin.service;
 
 public class LoginService {
 
