@@ -3,5 +3,13 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>husky</display-name>
+  <servlet>
+  	<servlet-name>loginAction</servlet-name>
+  	<servlet-class>cn.com.ruin.action.LoginAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>loginAction</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
 </web-app>
