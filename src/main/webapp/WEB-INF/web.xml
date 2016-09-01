@@ -6,7 +6,7 @@
   <display-name>husky</display-name>
   <servlet>
   	<servlet-name>loginAction</servlet-name>
-  	<servlet-class>cn.com.ruin.action.LoginAction</servlet-class>
+  	<servlet-class>cn.com.ruin.common.action.LoginAction</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>loginAction</servlet-name>
