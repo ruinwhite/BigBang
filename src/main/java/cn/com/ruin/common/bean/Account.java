@@ -66,4 +66,13 @@ public class Account {
 	public void setLastUpdateTime(Timestamp lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
+	
+	public String toJSONString() {
+		return "{\"accountNo\":\"" + accountNo + "\", userId\":\"" + userId
+				+ "\", roleId\":\"" + roleId + "\", loginName\":\"" + loginName
+				+ "\", password\":\"" + password + "\", level\":\"" + level
+				+ "\", xp\":\"" + xp + "\", createTime\":\"" + createTime
+				+ "\", lastUpdateTime\":\"" + lastUpdateTime + "}";
+	}
+	
 }

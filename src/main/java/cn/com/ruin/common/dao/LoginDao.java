@@ -11,17 +11,19 @@ import cn.com.ruin.common.utils.DBConnection;
 
 public class LoginDao {
 	private Connection conn;
-	public Account queryAccountInfoByLoginName(String loginName){
+	public Account queryAccountInfoByLoginNameAndPassword(
+			String loginName,String userPassword){
 		Account account = null;
 		String sql = "select account_no,user_id,role_id,login_name,"
 				+ " password,level,xp,create_time,last_update_time"
-				+ " from account where login_name = '"+loginName+"'";
+				+ " from account where login_name = '"+loginName+"'"
+				+ " and password = '"+userPassword+"'";
 		try {
-			account = new Account();
 			conn = DBConnection.getConn();
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
+				account = new Account();
 				account.setAccountNo(rs.getLong(1));
 				account.setUserId(rs.getLong(2));
 				account.setRoleId(rs.getInt(3));

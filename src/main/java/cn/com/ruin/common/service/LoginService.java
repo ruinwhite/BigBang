@@ -10,23 +10,21 @@ import cn.com.ruin.common.utils.EncryptAndDncrypt;
 
 public class LoginService {
 	
-	public boolean login(String loginName,String password) 
+	public Account login(String loginName,String userPassword) 
 			throws InvalidKeyException, NoSuchAlgorithmException, IOException{
 		if(loginName == null || "".equals(loginName.trim())){
-			return false;
+			return null;
 		}
 		if(loginName == null || "".equals(loginName.trim())){
-			return false;
+			return null;
 		}
 		LoginDao loginDao = new LoginDao();
-		Account account = loginDao.queryAccountInfoByLoginName(loginName);
-		if(account == null || account.getPassword() == null 
-				|| "".equals(account.getPassword().trim())){
-			return false;
-		}else if(account.getPassword().equals(EncryptAndDncrypt.encrypt(password))){
-			return true;
-		}else{
-			return false;
+		try{
+			return loginDao.queryAccountInfoByLoginNameAndPassword(
+					loginName,EncryptAndDncrypt.encrypt(userPassword));
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

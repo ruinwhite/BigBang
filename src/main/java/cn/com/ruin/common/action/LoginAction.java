@@ -1,42 +1,89 @@
 package cn.com.ruin.common.action;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
+
+import cn.com.ruin.common.bean.Account;
 import cn.com.ruin.common.service.LoginService;
 
 public class LoginAction extends HttpServlet{
 	private static final long serialVersionUID = -2608656495042290857L;
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		LoginService loginService = new LoginService();
+	protected void service(HttpServletRequest req, HttpServletResponse resp){
 		resp.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = resp.getWriter();
-		
-		String loginName = req.getParameter("loginName");
-		System.out.println(req.getParameterNames().nextElement());
-		String password = req.getParameter("password");
-		try {
-			if(loginService.login(loginName, password)){
-				
-			}else{
-				
-				out.write("用户名或密码错误!");
-				out.flush();
-				out.close();
+		String parameter = "";
+		Map<String,String> result = new HashMap<String,String>();;
+		try{
+			req.setCharacterEncoding("utf-8");
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(ServletInputStream)req.getInputStream(),"utf-8"));
+			StringBuffer sb = new StringBuffer("");
+			String temp;
+			while((temp = br.readLine()) != null){
+				sb.append(temp);
 			}
-		} catch (InvalidKeyException | NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			br.close();
+			parameter = sb.toString();
+			if(parameter != ""){
+				String[] params = parameter.split("&");
+				String loginName = "";
+				String userPassword = "";
+				if(params.length==2){
+					for(String param : params){
+						String[] keyVal = param.split("=");
+						if("loginName".equals(keyVal[0])){
+							loginName = keyVal[1];
+						}
+						if("userPassword".equals(keyVal[0])){
+							userPassword = keyVal[1];
+						}
+					}
+				}
+				if(loginName.equals("") || userPassword.equals("")){
+					result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+					result.put("errorInfo", "用户名或密码为空");
+					log("用户名或密码为空");
+				}
+				LoginService loginService = new LoginService();
+				Account account = new Account();
+				if((account = loginService.login(loginName, userPassword)) != null){
+					result.put("loginName", account.getLoginName());
+					result.put("userPassword", account.getPassword());
+					result.put("status", ""+HttpServletResponse.SC_OK);
+					log("登录成功");
+				}else{
+					result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+					result.put("errorInfo", "用户名或密码错误");
+					log("用户名或密码错误");
+				}
+			}else{
+				result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+				result.put("errorInfo", "用户名或密码为空");
+				log("用户名或密码为空");
+			}
+			JSONObject json = (JSONObject) JSONObject.toJSON(result);
+			resp.getWriter().write(json.toJSONString());
+		}catch(Exception e){
+			result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+			result.put("errorInfo", "登录异常");
+			JSONObject json = (JSONObject) JSONObject.toJSON(result);
+			try {
+				resp.getWriter().write(json.toJSONString());
+			} catch (IOException e1) {
+				log("系统异常", e);
+			}
+			log("登录异常", e);
 		}
-		
 	}
 
 }
