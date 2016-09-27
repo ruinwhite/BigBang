@@ -19,13 +19,16 @@ public class LoginAction extends HttpServlet{
 			throws ServletException, IOException {
 		LoginService loginService = new LoginService();
 		resp.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = resp.getWriter();
+		
 		String loginName = req.getParameter("loginName");
+		System.out.println(req.getParameterNames().nextElement());
 		String password = req.getParameter("password");
 		try {
 			if(loginService.login(loginName, password)){
-				resp.sendRedirect("/husky/essay/public/html/public.html");
+				
 			}else{
-				PrintWriter out = resp.getWriter();
+				
 				out.write("用户名或密码错误!");
 				out.flush();
 				out.close();
