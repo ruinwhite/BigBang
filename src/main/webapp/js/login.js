@@ -1,4 +1,3 @@
-
 $("#loginName").focus(function(){
 	$("#loginModal form .form-group").removeClass("has-error");
 	$("#loginModal form .glyphicon-remove").addClass("hide");
@@ -13,7 +12,6 @@ $("#userPassword").focus(function(){
 	$("#loginName").attr("placeholder","登录用户");
 	$("#userPassword").attr("placeholder","登录密码");
 });
-
 
 function login(){
 	var loginName = $("#loginName").val();
