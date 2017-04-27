@@ -11,7 +11,7 @@ import static org.junit.Assert.assertArrayEquals;
 public class TestSecretCode {
 	@Test
 	public void ttt() throws Exception{
-		String inputStr = "zxysdmn";
+		String inputStr = "a3086572";
 		System.out.println("原文:\n"+inputStr);
 		byte[] inputData = inputStr.getBytes();
 //		String code = SecretCode.encryptBASE64(inputData);

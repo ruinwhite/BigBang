@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
 
-import cn.com.ruin.common.bean.Account;
+import cn.com.ruin.common.bean.User;
 import cn.com.ruin.common.service.LoginService;
 
 public class LoginAction extends HttpServlet{
@@ -55,10 +55,10 @@ public class LoginAction extends HttpServlet{
 					log("用户名或密码为空");
 				}
 				LoginService loginService = new LoginService();
-				Account account = new Account();
-				if((account = loginService.login(loginName, userPassword)) != null){
-					result.put("loginName", account.getLoginName());
-					result.put("userPassword", account.getPassword());
+				User user = new User();
+				if((user = loginService.login(loginName, userPassword)) != null){
+					result.put("loginName", user.getUserName());
+					result.put("userPassword", user.getPassword());
 					result.put("status", ""+HttpServletResponse.SC_OK);
 					log("登录成功");
 				}else{

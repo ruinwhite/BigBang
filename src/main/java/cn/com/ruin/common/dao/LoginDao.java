@@ -6,38 +6,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import cn.com.ruin.common.bean.Account;
+import cn.com.ruin.common.bean.User;
 import cn.com.ruin.common.utils.DBConnection;
 
 public class LoginDao {
 	private Connection conn;
-	public Account queryAccountInfoByLoginNameAndPassword(
-			String loginName,String userPassword){
-		Account account = null;
-		String sql = "select account_no,user_id,role_id,login_name,"
-				+ " password,level,xp,create_time,last_update_time"
-				+ " from account where login_name = '"+loginName+"'"
-				+ " and password = '"+userPassword+"'";
+	public User queryUserPasswordByLoginName(
+			String loginName){
+		User user = null;
+		String sql = "select user_id,user_name,password,nick_name,"
+				+ " name,id_card,country,province,city,"
+				+ " age,phone,email,signed,state,"
+				+ " register_time,last_update_time"
+				+ " from user where user_name = "+loginName;
 		try {
 			conn = DBConnection.getConn();
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
-				account = new Account();
-				account.setAccountNo(rs.getLong(1));
-				account.setUserId(rs.getLong(2));
-				account.setRoleId(rs.getInt(3));
-				account.setLoginName(rs.getString(4));
-				account.setPassword(rs.getString(5));
-				account.setLevel(rs.getInt(6));
-				account.setXp(rs.getLong(7));
-				account.setCreateTime(rs.getTimestamp(8));
-				account.setLastUpdateTime(rs.getTimestamp(9));
+				user = new User();
+				user.setUserId(rs.getLong(1));
+				user.setUserName(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setNickName(rs.getString(4));
+				user.setName(rs.getString(5));
+				user.setIdCard(rs.getString(6));
+				user.setCountry(rs.getString(7));
+				user.setAge(rs.getInt(8));
+				user.setPhone(rs.getString(9));
+				user.setEmail(rs.getString(10));
+				user.setSigned(rs.getString(11));
+				user.setState(rs.getInt(12));
+				user.setRegisterTime(rs.getTimestamp(13));
+				user.setLastUpdateTime(rs.getTimestamp(14));
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		}
-		return account;
+		return user;
 		
 	}
 }
