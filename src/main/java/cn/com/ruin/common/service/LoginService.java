@@ -22,7 +22,9 @@ public class LoginService {
 		LoginDao loginDao = new LoginDao();
 		try{
 			user = loginDao.queryUserPasswordByLoginName(loginName);
-			if(user.getPassword().equals(EncryptAndDncrypt.encrypt(userPassword))){
+			if(user == null){
+				return null;
+			}else if(user.getPassword().equals(EncryptAndDncrypt.encrypt(userPassword))){
 				return user;
 			}else{
 				return null;
