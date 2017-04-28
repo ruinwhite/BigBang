@@ -1,16 +1,20 @@
 $("#loginName").focus(function(){
-	$("#loginModal form .form-group").removeClass("has-error");
-	$("#loginModal form .glyphicon-remove").addClass("hide");
-	$("#loginName").val("");
-	$("#loginName").attr("placeholder","登录用户");
-	$("#userPassword").attr("placeholder","登录密码");
+	if($("#loginModal form .form-group").hasClass("has-error")){
+		$("#loginName").val("");
+		$("#loginName").attr("placeholder","登录用户");
+		$("#userPassword").attr("placeholder","登录密码");
+		$("#loginModal form .form-group").removeClass("has-error");
+		$("#loginModal form .glyphicon-remove").addClass("hide");
+	}
 });
 $("#userPassword").focus(function(){
-	$("#loginModal form .form-group").removeClass("has-error");
-	$("#loginModal form .glyphicon-remove").addClass("hide");
-	$("#userPassword").val("");
-	$("#loginName").attr("placeholder","登录用户");
-	$("#userPassword").attr("placeholder","登录密码");
+	if($("#loginModal form .form-group").hasClass("has-error")){
+		$("#userPassword").val("");
+		$("#loginName").attr("placeholder","登录用户");
+		$("#userPassword").attr("placeholder","登录密码");
+		$("#loginModal form .form-group").removeClass("has-error");
+		$("#loginModal form .glyphicon-remove").addClass("hide");
+	}
 });
 
 function login(){
