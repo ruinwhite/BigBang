@@ -10,6 +10,15 @@ import cn.com.ruin.common.utils.EncryptAndDncrypt;
 
 public class LoginService {
 	
+	/**
+	 * 登录服务
+	 * @param loginName
+	 * @param userPassword
+	 * @return
+	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 */
 	public User login(String loginName,String userPassword) 
 			throws InvalidKeyException, NoSuchAlgorithmException, IOException{
 		User user = null;

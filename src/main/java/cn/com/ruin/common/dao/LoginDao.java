@@ -11,6 +11,12 @@ import cn.com.ruin.common.utils.DBConnection;
 
 public class LoginDao {
 	private Connection conn;
+	
+	/**
+	 * 通过用户名查询用户信息
+	 * @param loginName
+	 * @return
+	 */
 	public User queryUserPasswordByLoginName(
 			String loginName){
 		User user = null;
