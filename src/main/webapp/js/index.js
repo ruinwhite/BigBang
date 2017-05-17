@@ -16,22 +16,34 @@ $("header div.navbar ul.nav li.dropdown").click(function(){
 function getPageArticles(pageNum,pageSize){
 	var json = {"pageNum":pageNum,"pageSize":pageSize};
 	$.post("/husky/getPageArticles",json,function(data){
-		var josn = jQuery.parseJSON(data);
-		if(josn.status==400){
-			$("#page-arts").val(josn.errorInfo);
-//			$("#loginModal form .form-group").addClass("has-error");
-//			$("#loginModal form .glyphicon-remove").removeClass("hide");
-//			$("#loginName").val("");
-//			$("#loginName").attr("placeholder",josn.errorInfo);
-//			$("#userPassword").val("");
-//			$("#userPassword").attr("placeholder",josn.errorInfo);
-		}else if(josn.status==200){
-			var list = josn.arts;
-			return list;
+		var obj = jQuery.parseJSON(data);
+		if(obj.status==400){
+			$("#arts-list").children().remove();
+			$("#arts-list").addClass("text-center");
+			$("#arts-list").addClass("alert alert-danger");
+			$("#arts-list").text(obj.errorInfo);
+		}else if(obj.status==200){
+			$("#arts-list").children().remove();
+			for(var i in obj.arts){
+				createPanel($("#arts-list"),obj.arts[i]);
+			}
 		}
 	});
 }
 
+function createPanel(parent,art){
+	var div = $('<div id="p4" class="panel panel-default"></div>');
+	var headDiv = $('<div class="panel-heading"></div>');
+	var title = $('<h3 class="panel-title"></h3>');
+	title.text(art.title);
+	headDiv.append(title);
+	div.append(headDiv);
+	var bodyDiv = $('<div class="panel-body"></div>');
+	bodyDiv.text(art.content);
+	div.append(bodyDiv);
+	parent.append(div);
+}
+
 $(function(){
-	var list = getPageArticles(1,5);
+	getPageArticles(1,5);
 })
