@@ -18,11 +18,20 @@ public class ArticleService {
 		try{
 			ArticleDao dao = new ArticleDao();
 			int startNum = (pageNum - 1) * pageSize;
-			int endNum = pageNum * pageSize;
-			arts= dao.queryArticleDaoByPageStartNum(startNum, endNum);
+			arts= dao.queryArticleDaoByPageStartNum(startNum, pageSize);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return arts;
+	}
+	
+	public int getTotalArticleCount(){
+		try{
+			ArticleDao dao = new ArticleDao();
+			return dao.queryTotalArticleCount();
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

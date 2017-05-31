@@ -62,10 +62,26 @@ public class ArticleAction extends HttpServlet{
 				}else{
 					ArticleService articleService = new ArticleService();
 					List<Article> arts = null;
-					if((arts = articleService.getArticleListByPage(pageNum, pageSize)) != null){
+					int count = 0;
+					int page = 0;
+					if((arts = articleService.getArticleListByPage(pageNum, pageSize)) != null
+							&& (count = articleService.getTotalArticleCount()) != 0){
 						result.put("arts", arts);
+						page = count/pageSize;
+						if(count%pageSize>0){
+							page = count/pageSize+1;
+						}
+						result.put("page", page);
 						result.put("status", ""+HttpServletResponse.SC_OK);
-						log("登录成功");
+						log("分页查询成功");
+					}else if(arts == null){
+						result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+						result.put("errorInfo", "文章列表获取失败");
+						log("文章列表获取失败");
+					}else if(count == 0){
+						result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
+						result.put("errorInfo", "文章总数获取失败");
+						log("文章总数获取失败");
 					}else{
 						result.put("status", ""+HttpServletResponse.SC_BAD_REQUEST);
 						result.put("errorInfo", "无文章列表或分页查询失败");

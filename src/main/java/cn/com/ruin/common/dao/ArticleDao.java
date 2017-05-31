@@ -20,12 +20,12 @@ public class ArticleDao {
 	 * @param endNum
 	 * @return
 	 */
-	public List<Article> queryArticleDaoByPageStartNum(int startNum, int endNum){
+	public List<Article> queryArticleDaoByPageStartNum(int startNum, int pageSize){
 		List<Article> arts = null;
 		Article art = null;
 		String sql = "select id,user_id,title,content,category,tag,state,"
 				+ "create_time,update_time,sikm_count from article "
-				+ "where state!=3 limit "+startNum+","+endNum;
+				+ "where state!=3 limit "+startNum+","+pageSize;
 		try {
 			conn = DBConnection.getConn();
 			Statement st = conn.createStatement();
@@ -49,6 +49,26 @@ public class ArticleDao {
 			e.printStackTrace();
 		}
 		return arts;
-		
+	}
+	
+	/**
+	 * 查询文章数量
+	 * @return
+	 */
+	public int queryTotalArticleCount(){
+		String sql = "select count(1) from article where state!=3";
+		int count = 0;
+		try {
+			conn = DBConnection.getConn();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				count = rs.getInt(1);
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+			return count;
+		}
+		return count;
 	}
 }
