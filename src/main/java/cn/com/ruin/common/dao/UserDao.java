@@ -9,7 +9,7 @@ import java.sql.Statement;
 import cn.com.ruin.common.bean.User;
 import cn.com.ruin.common.utils.DBConnection;
 
-public class LoginDao {
+public class UserDao {
 	private Connection conn;
 	
 	/**

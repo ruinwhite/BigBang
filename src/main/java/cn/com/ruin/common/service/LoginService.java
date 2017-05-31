@@ -5,7 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import cn.com.ruin.common.bean.User;
-import cn.com.ruin.common.dao.LoginDao;
+import cn.com.ruin.common.dao.UserDao;
 import cn.com.ruin.common.utils.EncryptAndDncrypt;
 
 public class LoginService {
@@ -28,9 +28,9 @@ public class LoginService {
 		if(loginName == null || "".equals(loginName.trim())){
 			return null;
 		}
-		LoginDao loginDao = new LoginDao();
+		UserDao userDao = new UserDao();
 		try{
-			user = loginDao.queryUserPasswordByLoginName(loginName);
+			user = userDao.queryUserPasswordByLoginName(loginName);
 			if(user == null){
 				return null;
 			}else if(user.getPassword().equals(EncryptAndDncrypt.encrypt(userPassword))){
