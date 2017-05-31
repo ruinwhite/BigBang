@@ -19,7 +19,7 @@ import cn.com.ruin.common.service.ArticleService;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class ArticleAction extends HttpServlet{
+public class ArticleListAction extends HttpServlet{
 
 	private static final long serialVersionUID = -5329363942994443105L;
 	

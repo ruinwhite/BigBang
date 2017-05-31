@@ -17,7 +17,7 @@
   
   <servlet>
   	<servlet-name>articleAction</servlet-name>
-  	<servlet-class>cn.com.ruin.common.action.ArticleAction</servlet-class>
+  	<servlet-class>cn.com.ruin.common.action.ArticleListAction</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>articleAction</servlet-name>
