@@ -25,6 +25,10 @@ public class ArticleService {
 		return arts;
 	}
 	
+	/**
+	 * 查询文章总数
+	 * @return
+	 */
 	public int getTotalArticleCount(){
 		try{
 			ArticleDao dao = new ArticleDao();
@@ -33,5 +37,19 @@ public class ArticleService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	/**
+	 * 查询热点文章
+	 * @return
+	 */
+	public List<Article> getHotArticles(){
+		try{
+			ArticleDao dao = new ArticleDao();
+			return dao.queryHotArticles();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -28,17 +28,17 @@ public class ArticleListAction extends HttpServlet{
 			throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
 		String parameter = "";
-		Map<String,Object> result = new HashMap<String,Object>();;
+		Map<String,Object> result = new HashMap<String,Object>();
+		BufferedReader br = null;
 		try{
 			req.setCharacterEncoding("utf-8");
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			br = new BufferedReader(new InputStreamReader(
 					(ServletInputStream)req.getInputStream(),"utf-8"));
 			StringBuffer sb = new StringBuffer("");
 			String temp;
 			while((temp = br.readLine()) != null){
 				sb.append(temp);
 			}
-			br.close();
 			parameter = sb.toString();
 			if(parameter != ""){
 				String[] params = parameter.split("&");
@@ -105,6 +105,10 @@ public class ArticleListAction extends HttpServlet{
 				log("系统异常", e);
 			}
 			log("获取文章列表失败", e);
+		}finally{
+			if(br != null){
+				br.close();
+			}
 		}
 	}
 }

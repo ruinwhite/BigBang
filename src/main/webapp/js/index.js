@@ -1,9 +1,4 @@
 /**===============================================================
- * 初始化
- ===============================================================*/
-init();
-
-/**===============================================================
  * 全局变量
  ===============================================================*/
 var husky = {
@@ -44,33 +39,47 @@ function init(){
 }
 
 /*
- * 获取热门文章
+ * 获取热点文章
  */
 function getHotArticles(){
 	$.ajax({
-		type:"POST",
-		url:"/husky/getHotArticles",
-		data:"",
-		success:function(data){
-			var obj = jQuery.parseJSON(data);
-			if(obj.status==400){
-				//TODO 处理异常请求
-//				$("#arts-list-load").removeClass("alert-info");
-//				$("#arts-list-load").addClass("alert-danger");
-//				$("#arts-list-load").text(obj.errorInfo);
-			}else if(obj.status==200){
-				//TODO 处理正常请求
-//				$("#arts-list-load").addClass("hidden")
-//				$("#arts-list").children().remove();
-//				for(var i in obj.arts){
-//					createPanel($("#arts-list"),obj.arts[i]);
-//				}
-//				$("#arts-list").removeClass("hidden");
-//				createPagePanel(pageNum,obj.page);
-//				$("#arts-page").removeClass("hidden");
-			}
+		type: "POST",
+		url: "/husky/getHotArticles",
+		data: "",
+		success: function(data){
+			getHotArticlesCallback(data);
 		}
 	});
+}
+
+/*
+ * 热点文章获取请求回调函数 
+ * @param data
+ */
+function getHotArticlesCallback(data){
+	var obj = jQuery.parseJSON(data);
+	if(obj.status==400){
+		$("#hot-arts-load").removeClass("alert-info");
+		$("#hot-arts-load").addClass("alert-danger");
+		$("#hot-arts-load").text(obj.errorInfo);
+	}else if(obj.status==200){
+		$("#hot-arts-load").addClass("hidden");
+		$("#hot-arts-list").removeClass("hidden");
+		var lis = $("#hot-arts-list").children("li:not(:first)");
+		for(var i in obj.arts){
+			createHotArticlesPanel(lis[i],obj.arts[i]);
+		}
+	}
+}
+
+/*
+ * 生成热点文章列表
+ * @param parent
+ * @param art
+ */
+function createHotArticlesPanel(li,art){
+	$(li).val(art.id);
+	$(li).children("a").text(art.title);
 }
 
 /*
@@ -84,7 +93,9 @@ function getPageArticles(pageNum,pageSize){
 			type:"POST",
 			url:"/husky/getPageArticles",
 			data:json,
-			success: getPageArticlesCallback(data)
+			success: function(data){
+				getPageArticlesCallback(data,pageNum,pageSize);
+			}
 		});
 }
 
@@ -92,7 +103,7 @@ function getPageArticles(pageNum,pageSize){
  * 文章列表获取成功处理事件
  * @param data
  */
-function getPageArticlesCallback(data){
+function getPageArticlesCallback(data,pageNum,pageSize){
 	var obj = jQuery.parseJSON(data);
 	if(obj.status==400){
 		$("#arts-list-load").removeClass("alert-info");
@@ -102,7 +113,7 @@ function getPageArticlesCallback(data){
 		$("#arts-list-load").addClass("hidden")
 		$("#arts-list").children().remove();
 		for(var i in obj.arts){
-			createPanel($("#arts-list"),obj.arts[i]);
+			createPageArticlesPanel($("#arts-list"),obj.arts[i]);
 		}
 		$("#arts-list").removeClass("hidden");
 		createPagePanel(pageNum,obj.page);
@@ -115,7 +126,7 @@ function getPageArticlesCallback(data){
  * @param parent
  * @param art
  */
-function createPanel(parent,art){
+function createPageArticlesPanel(parent,art){
 	var div = $('<div id="p4" class="panel panel-default"></div>');
 	var headDiv = $('<div class="panel-heading"></div>');
 	var title = $('<h3 class="panel-title"></h3>');
@@ -231,4 +242,9 @@ function clickCurrentBtn(obj){
 	}
 	return false;
 }
+
+/**===============================================================
+ * 初始化
+ ===============================================================*/
+init();
 

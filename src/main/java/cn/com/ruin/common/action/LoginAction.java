@@ -20,20 +20,20 @@ public class LoginAction extends HttpServlet{
 	private static final long serialVersionUID = -2608656495042290857L;
 	
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp){
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		resp.setContentType("text/html;charset=UTF-8");
 		String parameter = "";
-		Map<String,String> result = new HashMap<String,String>();;
+		Map<String,String> result = new HashMap<String,String>();
+		BufferedReader br = null;
 		try{
 			req.setCharacterEncoding("utf-8");
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			br = new BufferedReader(new InputStreamReader(
 					(ServletInputStream)req.getInputStream(),"utf-8"));
 			StringBuffer sb = new StringBuffer("");
 			String temp;
 			while((temp = br.readLine()) != null){
 				sb.append(temp);
 			}
-			br.close();
 			parameter = sb.toString();
 			if(parameter != ""){
 				String[] params = parameter.split("&");
@@ -85,6 +85,10 @@ public class LoginAction extends HttpServlet{
 				log("系统异常", e);
 			}
 			log("登录异常", e);
+		}finally{
+			if(br != null){
+				br.close();
+			}
 		}
 	}
 

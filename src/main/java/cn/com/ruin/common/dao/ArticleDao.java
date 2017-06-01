@@ -71,4 +71,33 @@ public class ArticleDao {
 		}
 		return count;
 	}
+	
+	
+	/**
+	 * 查询热点文章
+	 * 长度为5
+	 * @return
+	 */
+	public List<Article> queryHotArticles(){
+		List<Article> arts = null;
+		Article art = null;
+		String sql = "select id,title,sikm_count from article "
+				+ "where state!=3 ORDER BY sikm_count DESC limit 5";
+		try {
+			conn = DBConnection.getConn();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			arts = new ArrayList<Article>();
+			while(rs.next()){
+				art = new Article();
+				art.setId(rs.getLong(1));
+				art.setTitle(rs.getString(2));
+				art.setSikmCount(rs.getInt(3));
+				arts.add(art);
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+		return arts;
+	}
 }

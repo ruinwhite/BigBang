@@ -16,6 +16,15 @@
   </servlet-mapping>
   
   <servlet>
+  	<servlet-name>hotArticleAction</servlet-name>
+  	<servlet-class>cn.com.ruin.common.action.HotArticlesAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>hotArticleAction</servlet-name>
+  	<url-pattern>/getHotArticles</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
   	<servlet-name>articleAction</servlet-name>
   	<servlet-class>cn.com.ruin.common.action.ArticleListAction</servlet-class>
   </servlet>
