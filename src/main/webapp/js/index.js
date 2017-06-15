@@ -80,6 +80,9 @@ function getHotArticlesCallback(data){
 function createHotArticlesPanel(li,art){
 	$(li).val(art.id);
 	$(li).children("a").text(art.title);
+	var badge = $('<span class="badge pull-right"></span>');
+	badge.text(art.sikmCount);
+	$(li).children("a").append(badge);
 }
 
 /*
@@ -129,12 +132,19 @@ function getPageArticlesCallback(data,pageNum,pageSize){
 function createPageArticlesPanel(parent,art){
 	var div = $('<div id="p4" class="panel panel-default"></div>');
 	var headDiv = $('<div class="panel-heading"></div>');
+	var badge = $('<span class="badge pull-right"></span>');
 	var title = $('<h3 class="panel-title"></h3>');
+	badge.text(art.sikmCount);
 	title.text(art.title);
+	title.append(badge);
 	headDiv.append(title);
 	div.append(headDiv);
 	var bodyDiv = $('<div class="panel-body"></div>');
-	bodyDiv.text(art.content);
+	var content = art.content;
+	if(art.content.length>200){
+		content = art.content.substring(0,200)+"....";
+	}
+	bodyDiv.text(content);
 	div.append(bodyDiv);
 	parent.append(div);
 }

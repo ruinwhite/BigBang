@@ -89,3 +89,11 @@
 }
 
 /** 新增图片样式 */
+
+/** 文本省略 */
+.text-ellipsis {
+	height: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
